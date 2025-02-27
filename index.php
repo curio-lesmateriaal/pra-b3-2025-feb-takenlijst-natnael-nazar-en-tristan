@@ -4,20 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taakbord</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
     
     
     <?php require_once 'head.php'; ?>
 </head>
 <body>
     <header>
-        <div class="logo-container">
-            <h1>Taakbord - DeveloperLand</h1>
-            <img src="img/DeveloperLandLogo.png" alt="DeveloperLand logo" class="logo">
-            
-        </>
+        <h1>Takenbord</h1>
+        <a href="Login.php">Login</a>
     </header>
+
     <main>
-        <p>Welkom bij DeveloperLand! Dit is het taakbord waar je al je taken kunt beheren.</p>
+        <h2>Welkom bij het Takenbord</h2>
+        <p>
+            Met ons takenbord kunt u eenvoudig uw taken organiseren en bijhouden. U kunt:
+        </p>
+        <ul>
+            <li>Nieuwe taken aanmaken</li>
+            <li>De status van taken veranderen (bijvoorbeeld: "To Do", "In Progress", "Done")</li>
+            <li>Taken verwijderen</li>
+            <li>Een deadline instellen voor wanneer de taak af moet zijn</li>
+        </ul>
+        <p>
+            Log in om toegang te krijgen tot uw persoonlijke takenbord en begin met het organiseren van uw werk!
+        </p>
     </main>
+
+    <div class="footer">
+        &copy; 2025 Developer Land Takenbord. 
 </body>
 </html>
