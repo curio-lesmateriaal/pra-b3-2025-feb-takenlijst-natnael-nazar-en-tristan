@@ -111,6 +111,35 @@ label{
     width: 600px;
 }
 
+.header-content {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  height: 50px; /* Pas de hoogte aan naar wens */
+  margin-right: 15px;
+}
+
+header h1 {
+  margin: 0;
+  color: #00796b; /* Donkergroene tekstkleur */
+}
+
+/* Hoofdinhoud stijlen */
+main {
+  padding: 20px;
+  background-color: #ffffff; /* Witte achtergrond */
+  margin: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+main p {
+  font-size: 18px;
+  line-height: 1.6;
+}
+
 
 
 
