@@ -96,8 +96,31 @@ html{
     margin: 0 auto;
 }
 
+.container-login{
+  max-width: 1024px;
+  margin: 0 auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  border: solid #2e7d32;
+  border-radius: 5px;
+  border-width: 4px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+}
+
+h1{
+  display: flex;
+  justify-content: center;
+  
+}
+
 .form-group{
     margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
 
 label{
@@ -110,9 +133,6 @@ label{
 .form-input{
     width: 600px;
 }
-
-
-
 
 
 
@@ -316,8 +336,22 @@ body {
 }
 
 .Button  {
-  display: inline-block;
+  display: flex;
+  justify-content: center;
   padding: 10px 20px;
+  
+}
+
+.Button input{
+  background-color: #81c784; 
+  color: white; 
+  text-decoration: none; 
+  border-radius: 5px; 
+  border: 2px solid #4CAF50; 
+  transition: background-color 0.3s, color 0.3s; 
+}
+
+.Button a{
   background-color: #81c784; 
   color: white; 
   text-decoration: none; 

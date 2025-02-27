@@ -13,7 +13,7 @@
 <body>
     <header>
         <h1>Takenbord</h1>
-        <div class="Button"
+        <div class="Button">
             <a href="Login.php">Login</a>
         </div>
     </header>

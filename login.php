@@ -11,17 +11,18 @@
     <?php require_once 'head.php'; ?>
 </head>
 <body>
-    <div class="container">
+    <div class="container-login">
     <h1>Login</h1>
-    <form action="<?php echo $base_url;?> /app/http/Controllers/takenlijstController.php">
+    <form action="<?php $base_url?>/app/http/Controllers/takenlijstController.php">
         <div class="form-group">
             <input type="text" name="user" id="user" placeholder="Username" class="form-input">
         </div>
         <div class="form-group">
-            <input type="text" name="password" id="password" placeholder="Password" class="form-input">
+            <input type="text" name="pass" id="pass" placeholder="Password" class="form-input">
         </div>
-        <input type="submit" value="login">
-        </div>
+        <div class="Button">
+        <input type="submit" value="Login">
+</div>
         </div>
         </div>
     </form>
