@@ -306,8 +306,48 @@ body {
   margin: 0;
   padding: 0;
   background-color: #e0f7fa; 
-  color: #2e7d32; 
+  color: #2e7d32;
+  background-image: url('img/pretpark.png'); 
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  background-attachment: fixed; 
+  opacity: 0.9; 
 }
+
+.Button  {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #81c784; 
+  color: white; 
+  text-decoration: none; 
+  border-radius: 5px; 
+  border: 2px solid #4CAF50; 
+  transition: background-color 0.3s, color 0.3s; 
+}
+
+.Button :hover {
+  background-color: #4CAF50; 
+  color: white;
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #e0f7fa; 
+  z-index: -1; 
+}
+
+header, main, .footer {
+  position: relative;
+  z-index: 1; /* Ensure content is above the background */
+}
+
+
 
 header {
   background-color: #c8e6c9; 
