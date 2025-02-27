@@ -4,15 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taakbord - DeveloperLand</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/normalize.css">
     
     <?php require_once 'head.php'; ?>
 </head>
 <body>
     <header>
-        <div class="header-content">
-            <img src="img/DeveloperLandLogo.png" alt="DeveloperLand logo" class="logo">
+        <div class="logo-container">
             <h1>Taakbord</h1>
-        </div>
+            <img src="img/DeveloperLandLogo.png" alt="DeveloperLand logo" class="logo">
+            
+        </>
     </header>
     <main>
         <p>Welkom bij DeveloperLand! Dit is het taakbord waar je al je taken kunt beheren.</p>
