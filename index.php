@@ -13,7 +13,9 @@
 <body>
     <header>
         <h1>Takenbord</h1>
-        <a href="Login.php">Login</a>
+        <div class="Button"
+            <a href="Login.php">Login</a>
+        </div>
     </header>
 
     <main>
