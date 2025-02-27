@@ -2,7 +2,7 @@
 <html lang="nl">
 
 <head>
-    <title></title>
+    <title>Taakbord</title>
     <?php require_once 'head.php'; ?>
 </head>
 
