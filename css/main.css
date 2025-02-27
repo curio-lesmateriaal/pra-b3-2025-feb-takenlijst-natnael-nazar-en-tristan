@@ -294,19 +294,19 @@ label{
 
 
 
-/* Algemene stijlen */
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #e0f7fa; /* Lichtblauwe achtergrond */
-  color: #2e7d32; /* Donkergroene tekst */
+  background-color: #e0f7fa; 
+  color: #2e7d32; 
 }
 
 header {
-  background-color: #c8e6c9; /* Lichtgroene achtergrond */
+  background-color: #c8e6c9; 
   padding: 10px 20px;
-  border-bottom: 2px solid #81c784; /* Donkergroene rand */
+  border-bottom: 2px solid #81c784; 
 }
 
 .logo-container {
@@ -315,14 +315,14 @@ header {
 }
 
 .logo {
-  height: 40px; /* Klein logo */
+  height: 40px; 
   margin-right: 10px;
 }
 
 h1 {
   margin: 0;
   font-size: 24px;
-  color: #1b5e20; /* Donkergroene kleur voor de titel */
+  color: #1b5e20; 
 }
 
 main {
