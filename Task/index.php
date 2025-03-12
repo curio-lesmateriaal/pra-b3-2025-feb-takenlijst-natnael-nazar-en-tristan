@@ -3,7 +3,6 @@
 <?php
 require_once '../backend/conn.php';
 
-
 $query = "SELECT titel, afdeling, status FROM taken WHERE status <> 'done'";
 $stmt = $conn->prepare($query);
 $stmt->execute();
