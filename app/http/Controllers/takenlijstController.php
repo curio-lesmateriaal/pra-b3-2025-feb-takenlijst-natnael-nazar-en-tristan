@@ -2,7 +2,7 @@
 
 
 session_start(); 
-require_once '../../backend/conn.php'; // Databaseverbinding
+require_once '../../../backend/conn.php'; // Databaseverbinding
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
