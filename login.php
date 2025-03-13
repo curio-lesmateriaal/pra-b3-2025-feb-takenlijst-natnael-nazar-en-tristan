@@ -10,7 +10,7 @@
 <body>
     <div class="container-login">
         <h1>Login</h1>
-        <form action="app/http/Controllers/takenlijstController.php" method="post">
+        <form action="app/http/Controllers/LoginController.php" method="post">
             <div class="form-group">
                 <label for="user">Gebruikersnaam:</label>
                 <input type="text" name="user" id="user" placeholder="Gebruikersnaam" class="form-input" required>
