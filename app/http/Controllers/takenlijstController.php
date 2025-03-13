@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../../../backend/conn.php'; // Databaseverbinding
+require_once '../../../backend/conn.php'; 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $titel = $_POST['titel'];
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ':afdeling' => $afdeling
     ]);
 
-    // Terug naar takenlijst
+    
     header('Location: ../../../task/index.php');
     exit;
 } else {
