@@ -1,8 +1,15 @@
-<?php require_once 'create.php'; ?>
-
 <?php
-require_once '../backend/conn.php';
+session_start(); // Start de sessie
 
+// Controleren of de gebruiker is ingelogd
+if (!isset($_SESSION['user'])) {
+    header('Location: ../login.php'); // Doorsturen naar inlogpagina als niet ingelogd
+    exit;
+}
+
+require_once '../backend/conn.php'; // Databaseverbinding
+
+// Query om taken op te halen waarvan de status niet "done" is
 $query = "SELECT titel, afdeling, status FROM taken WHERE status <> 'done'";
 $stmt = $conn->prepare($query);
 $stmt->execute();
@@ -24,11 +31,13 @@ $taken = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <nav>
             <a href="create.php">Nieuwe taak toevoegen</a>
             <a href="done.php">Voltooide taken bekijken</a>
+            <a href="../app/http/Controllers/logoutController.php">Uitloggen</a>
         </nav>
     </header>
 
     <main>
-        <h2>Actieve taken</h2>
+        <h2>Welkom, <?php echo htmlspecialchars($_SESSION['user']); ?>!</h2>
+        <h3>Actieve taken</h3>
         <?php if (count($taken) > 0): ?>
             <table>
                 <thead>
