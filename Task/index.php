@@ -1,15 +1,15 @@
 <?php
-session_start(); // Start de sessie
+session_start(); 
 
-// Controleren of de gebruiker is ingelogd
+
 if (!isset($_SESSION['user'])) {
-    header('Location: ../login.php'); // Doorsturen naar inlogpagina als niet ingelogd
+    header('Location: ../login.php'); 
     exit;
 }
 
-require_once '../backend/conn.php'; // Databaseverbinding
+require_once '../backend/conn.php';
 
-// Query om taken op te halen waarvan de status niet "done" is
+
 $query = "SELECT titel, afdeling, status FROM taken WHERE status <> 'done'";
 $stmt = $conn->prepare($query);
 $stmt->execute();
