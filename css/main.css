@@ -381,6 +381,45 @@ header, main, .footer {
   z-index: 1; /* Ensure content is above the background */
 }
 
+nav a:hover {
+  background-color: #388e3c;
+}
+
+.takenbord-container {
+  width: 80%;
+  max-width: 900px;
+  margin: 20px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.takenbord {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.taak {
+  background: #f1f8e9;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.verwijder-knop {
+  background-color: #e53935;
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.verwijder-knop:hover {
+  background-color: #c62828;
+}
 
 
 header {
