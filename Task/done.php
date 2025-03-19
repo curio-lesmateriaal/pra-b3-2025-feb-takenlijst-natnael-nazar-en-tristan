@@ -8,7 +8,7 @@ if (!isset($_SESSION['user'])) {
 require_once '../backend/conn.php';
 
 // Voltooide taken ophalen
-$query = "SELECT id, titel, beschrijving, afdeling, status, created_at FROM taken WHERE status = 'done'";
+$query = "SELECT id, titel, beschrijving, afdeling, status, created_at, deadline FROM taken WHERE status = 'done'";
 $stmt = $conn->prepare($query);
 $stmt->execute();
 $taken = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -21,7 +21,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_task'])) {
     $deleteStmt = $conn->prepare($deleteQuery);
     $deleteStmt->execute(['id' => $taakId]);
 
-    // Vernieuw de pagina om de wijzigingen te tonen
     header('Location: done.php');
     exit;
 }
@@ -36,7 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_task'])) {
     <link rel="stylesheet" href="../css/normalize.css">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="taakbord.css">
-    </style>
 </head>
 <body>
     <header>
@@ -56,12 +54,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_task'])) {
                         <h3><?= htmlspecialchars($taak['titel']) ?></h3>
                         <p><strong>Afdeling:</strong> <?= htmlspecialchars($taak['afdeling']) ?></p>
                         <p><strong>Status:</strong> <?= htmlspecialchars($taak['status']) ?></p>
-                        <p><strong>Aangemaakt op:</strong> <?= htmlspecialchars($taak['created_at']) ?></p>
+                        <p><strong>Aangemaakt op:</strong> <?= htmlspecialchars($taak['created_at'] ?? 'Geen datum beschikbaar') ?></p>
+                        <p><strong>Deadline:</strong> <?= htmlspecialchars($taak['deadline'] ?? 'Geen deadline') ?></p>
                         <p><?= nl2br(htmlspecialchars($taak['beschrijving'])) ?></p>
                         <form method="POST" action="../app/http/Controllers/DeleteTaskController.php" style="display: inline;">
                             <input type="hidden" name="taak_id" value="<?= $taak['id'] ?>">
                             <button type="submit" name="delete_task" class="delete-btn">Verwijderen</button>
-                            
                         </form>
                     </div>
                 <?php endforeach; ?>
@@ -70,6 +68,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_task'])) {
             <?php endif; ?>
         </div>
     </main>
-
 </body>
 </html>

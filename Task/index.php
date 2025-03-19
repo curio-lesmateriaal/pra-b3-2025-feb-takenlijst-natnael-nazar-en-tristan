@@ -9,7 +9,7 @@ if (!isset($_SESSION['user'])) {
 require_once '../backend/conn.php';
 
 // Query om actieve taken op te halen
-$query = "SELECT id, titel, afdeling, status, created_at FROM taken WHERE status <> 'done'";
+$query = "SELECT id, titel, afdeling, status, created_at, deadline FROM taken WHERE status <> 'done'";
 $stmt = $conn->prepare($query);
 $stmt->execute();
 $taken = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -23,7 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
     $updateStmt = $conn->prepare($updateQuery);
     $updateStmt->execute(['status' => $nieuweStatus, 'id' => $taakId]);
 
-    // Vernieuw de pagina om de wijzigingen te tonen
     header('Location: index.php');
     exit;
 }
@@ -59,7 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
                         <tr>
                             <th>Titel</th>
                             <th>Afdeling</th>
-                            <th>Datum</th>
+                            <th>Aangemaakt op</th>
+                            <th>Deadline</th>
                             <th>Status</th>
                             <th>Actie</th>
                         </tr>
@@ -69,7 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
                             <tr>
                                 <td><?php echo htmlspecialchars($taak['titel']); ?></td>
                                 <td><?php echo htmlspecialchars($taak['afdeling']); ?></td>
-                                <td><?php echo htmlspecialchars($taak['created_at'] ?? ''); ?></td>
+                                <td><?php echo htmlspecialchars($taak['created_at'] ?? 'Geen datum beschikbaar'); ?></td>
+                                <td><?php echo htmlspecialchars($taak['deadline'] ?? 'Geen deadline'); ?></td>
                                 <td>
                                     <form class="status-form" method="POST" action="index.php">
                                         <input type="hidden" name="taak_id" value="<?php echo $taak['id']; ?>">

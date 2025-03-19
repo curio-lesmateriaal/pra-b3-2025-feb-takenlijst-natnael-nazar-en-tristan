@@ -45,14 +45,15 @@ require_once '../backend/conn.php';
                 </select>
             </div>
 
-            
+            <div class="form-group">
+                <label for="deadline">Deadline:</label>
+                <input type="date" name="deadline" id="deadline" required class="form-input">
+            </div>
 
             <div class="form-group">
                 <input type="submit" value="Taak Toevoegen" class="button">
             </div>
         </form>
     </main>
-
-
 </body>
 </html>

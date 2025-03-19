@@ -6,19 +6,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $titel = $_POST['titel'];
     $beschrijving = $_POST['beschrijving'];
     $afdeling = $_POST['afdeling'];
+    $deadline = $_POST['deadline'];
 
-    // Invoegen in database
-    $query = "INSERT INTO taken (titel, beschrijving, afdeling, status) VALUES (:titel, :beschrijving, :afdeling, 'open')";
+    
+    $query = "INSERT INTO taken (titel, beschrijving, afdeling, status, created_at, deadline) VALUES (:titel, :beschrijving, :afdeling, 'open', NOW(), :deadline)";
     $stmt = $conn->prepare($query);
     $stmt->execute([
         ':titel' => $titel,
         ':beschrijving' => $beschrijving,
-        ':afdeling' => $afdeling
+        ':afdeling' => $afdeling,
+        ':deadline' => $deadline 
     ]);
 
-    
     header('Location: ../../../task/index.php');
     exit;
 } else {
     echo "Ongeldige aanvraag.";
 }
+?>
