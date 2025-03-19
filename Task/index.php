@@ -1,23 +1,33 @@
 <?php
-session_start(); 
-
+session_start();
 
 if (!isset($_SESSION['user'])) {
-    header('Location: ../login.php'); 
+    header('Location: ../login.php');
     exit;
 }
 
-
-
 require_once '../backend/conn.php';
 
-
-$query = "SELECT titel, afdeling, status FROM taken WHERE status <> 'done'";
+// Query om actieve taken op te halen
+$query = "SELECT id, titel, afdeling, status, created_at FROM taken WHERE status <> 'done'";
 $stmt = $conn->prepare($query);
 $stmt->execute();
 $taken = $stmt->fetchAll(PDO::FETCH_ASSOC);
-?>
 
+// Status updaten als er een formulier is ingediend
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
+    $taakId = $_POST['taak_id'];
+    $nieuweStatus = $_POST['status'];
+
+    $updateQuery = "UPDATE taken SET status = :status WHERE id = :id";
+    $updateStmt = $conn->prepare($updateQuery);
+    $updateStmt->execute(['status' => $nieuweStatus, 'id' => $taakId]);
+
+    // Vernieuw de pagina om de wijzigingen te tonen
+    header('Location: index.php');
+    exit;
+}
+?>
 
 <!DOCTYPE html>
 <html lang="nl">
@@ -28,6 +38,7 @@ $taken = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="../css/normalize.css">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="taakbord.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.js"></script>
 </head>
 <body>
     <header>
@@ -42,30 +53,54 @@ $taken = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <main>
         <h2>Welkom, <?php echo htmlspecialchars($_SESSION['user']); ?>!</h2>
         <h3>Actieve taken</h3>
-        <?php if (count($taken) > 0): ?>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Titel</th>
-                        <th>Afdeling</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($taken as $taak): ?>
+        <div class="task-box">
+            <?php if (count($taken) > 0): ?>
+                <table>
+                    <thead>
                         <tr>
-                            <td><?php echo htmlspecialchars($taak['titel']); ?></td>
-                            <td><?php echo htmlspecialchars($taak['afdeling']); ?></td>
-                            <td><?php echo htmlspecialchars($taak['status']); ?></td>
+                            <th>Titel</th>
+                            <th>Afdeling</th>
+                            <th>Datum</th>
+                            <th>Status</th>
+                            <th>Actie</th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php else: ?>
-            <p>Er zijn geen actieve taken.</p>
-        <?php endif; ?>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($taken as $taak): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($taak['titel']); ?></td>
+                                <td><?php echo htmlspecialchars($taak['afdeling']); ?></td>
+                                <td><?php echo htmlspecialchars($taak['created_at']); ?></td>
+                                <td>
+                                    <form class="status-form" method="POST" action="index.php">
+                                        <input type="hidden" name="taak_id" value="<?php echo $taak['id']; ?>">
+                                        <select name="status" onchange="this.form.submit()">
+                                            <option value="todo" <?php echo $taak['status'] === 'todo' ? 'selected' : ''; ?>>To-do</option>
+                                            <option value="in_progress" <?php echo $taak['status'] === 'in_progress' ? 'selected' : ''; ?>>In Progress</option>
+                                            <option value="done" <?php echo $taak['status'] === 'done' ? 'selected' : ''; ?>>Finished</option>
+                                        </select>
+                                        <input type="hidden" name="update_status" value="1">
+                                    </form>
+                                </td>
+                                <td>
+                                    <button class="delete-btn" onclick="deleteTask(<?php echo $taak['id']; ?>)">Verwijderen</button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <p>Er zijn geen actieve taken.</p>
+            <?php endif; ?>
+        </div>
     </main>
 
-
+    <script>
+        function deleteTask(taskId) {
+            if (confirm("Weet je zeker dat je deze taak wilt verwijderen?")) {
+                window.location.href = `../backend/deleteTask.php?id=${taskId}`;
+            }
+        }
+    </script>
 </body>
 </html>

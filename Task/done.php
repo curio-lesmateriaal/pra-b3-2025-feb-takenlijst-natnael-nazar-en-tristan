@@ -12,6 +12,19 @@ $query = "SELECT id, titel, beschrijving, afdeling, status, created_at FROM take
 $stmt = $conn->prepare($query);
 $stmt->execute();
 $taken = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Taak verwijderen als er een verwijderverzoek is
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_task'])) {
+    $taakId = $_POST['taak_id'];
+
+    $deleteQuery = "DELETE FROM taken WHERE id = :id";
+    $deleteStmt = $conn->prepare($deleteQuery);
+    $deleteStmt->execute(['id' => $taakId]);
+
+    // Vernieuw de pagina om de wijzigingen te tonen
+    header('Location: done.php');
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +36,7 @@ $taken = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="../css/normalize.css">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="taakbord.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.js"></script>
+    </style>
 </head>
 <body>
     <header>
@@ -35,55 +48,30 @@ $taken = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </header>
 
     <main>
-        <div class="takenbord-container">
+        <div class="task-box">
             <h2>Voltooide Taken</h2>
-            <div id="takenbord" class="takenbord">
-                <?php if (count($taken) > 0): ?>
-                    <?php foreach ($taken as $taak): ?>
-                        <div class="taak" data-id="<?= $taak['id'] ?>">
-                            <h3><?= htmlspecialchars($taak['titel']) ?></h3>
-                            <p><strong>Afdeling:</strong> <?= htmlspecialchars($taak['afdeling']) ?></p>
-                            <p><strong>Status:</strong> <?= htmlspecialchars($taak['status']) ?></p>
-                            <p><strong>Aangemaakt op:</strong> <?= htmlspecialchars($taak['created_at']) ?></p>
-                            <p><?= nl2br(htmlspecialchars($taak['beschrijving'])) ?></p>
-                            <button class="verwijder-knop" data-id="<?= $taak['id'] ?>">Verwijderen</button>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p>Er zijn geen voltooide taken.</p>
-                <?php endif; ?>
-            </div>
+            <?php if (count($taken) > 0): ?>
+                <?php foreach ($taken as $taak): ?>
+                    <div class="taak">
+                        <h3><?= htmlspecialchars($taak['titel']) ?></h3>
+                        <p><strong>Afdeling:</strong> <?= htmlspecialchars($taak['afdeling']) ?></p>
+                        <p><strong>Status:</strong> <?= htmlspecialchars($taak['status']) ?></p>
+                        <p><strong>Aangemaakt op:</strong> <?= htmlspecialchars($taak['created_at']) ?></p>
+                        <p><?= nl2br(htmlspecialchars($taak['beschrijving'])) ?></p>
+                        <form method="POST" action="done.php" style="display: inline;">
+                            <input type="hidden" name="taak_id" value="<?= $taak['id'] ?>">
+                            <button type="submit" name="delete_task" class="delete-btn">Verwijderen</button>
+                        </form>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>Er zijn geen voltooide taken.</p>
+            <?php endif; ?>
         </div>
     </main>
 
     <footer>
         &copy; 2025 Developer Land Takenbord.
     </footer>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const takenbord = document.getElementById("takenbord");
-            const drake = dragula([takenbord]);
-
-            document.querySelectorAll(".verwijder-knop").forEach(button => {
-                button.addEventListener("click", function() {
-                    const taakId = this.dataset.id;
-                    if (confirm("Weet je zeker dat je deze taak wilt verwijderen?")) {
-                        fetch('../app/http/Controllers/deleteTaskController.php', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                            body: 'id=' + taakId
-                        }).then(response => response.json()).then(data => {
-                            if (data.success) {
-                                this.parentElement.remove();
-                            } else {
-                                alert("Fout bij verwijderen!");
-                            }
-                        });
-                    }
-                });
-            });
-        });
-    </script>
 </body>
 </html>
