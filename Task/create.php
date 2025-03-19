@@ -53,8 +53,6 @@ require_once '../backend/conn.php';
         </form>
     </main>
 
-    <footer>
-        &copy; 2025 Developer Land Takenbord.
-    </footer>
+
 </body>
 </html>

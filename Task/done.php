@@ -58,9 +58,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_task'])) {
                         <p><strong>Status:</strong> <?= htmlspecialchars($taak['status']) ?></p>
                         <p><strong>Aangemaakt op:</strong> <?= htmlspecialchars($taak['created_at']) ?></p>
                         <p><?= nl2br(htmlspecialchars($taak['beschrijving'])) ?></p>
-                        <form method="POST" action="done.php" style="display: inline;">
+                        <form method="POST" action="../app/http/Controllers/DeleteTaskController.php" style="display: inline;">
                             <input type="hidden" name="taak_id" value="<?= $taak['id'] ?>">
                             <button type="submit" name="delete_task" class="delete-btn">Verwijderen</button>
+                            
                         </form>
                     </div>
                 <?php endforeach; ?>
@@ -70,8 +71,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_task'])) {
         </div>
     </main>
 
-    <footer>
-        &copy; 2025 Developer Land Takenbord.
-    </footer>
 </body>
 </html>

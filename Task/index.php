@@ -38,7 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
     <link rel="stylesheet" href="../css/normalize.css">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="taakbord.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.js"></script>
 </head>
 <body>
     <header>
@@ -70,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
                             <tr>
                                 <td><?php echo htmlspecialchars($taak['titel']); ?></td>
                                 <td><?php echo htmlspecialchars($taak['afdeling']); ?></td>
-                                <td><?php echo htmlspecialchars($taak['created_at']); ?></td>
+                                <td><?php echo htmlspecialchars($taak['created_at'] ?? ''); ?></td>
                                 <td>
                                     <form class="status-form" method="POST" action="index.php">
                                         <input type="hidden" name="taak_id" value="<?php echo $taak['id']; ?>">
@@ -83,7 +82,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
                                     </form>
                                 </td>
                                 <td>
-                                    <button class="delete-btn" onclick="deleteTask(<?php echo $taak['id']; ?>)">Verwijderen</button>
+                                    <form method="POST" action="../../../app/http/Controllers/DeleteTaskController.php" style="display: inline;">
+                                        <input type="hidden" name="taak_id" value="<?php echo $taak['id']; ?>">
+                                        <button type="submit" name="delete_task" class="delete-btn">Verwijderen</button>
+                                    </form>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -94,13 +96,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
             <?php endif; ?>
         </div>
     </main>
-
-    <script>
-        function deleteTask(taskId) {
-            if (confirm("Weet je zeker dat je deze taak wilt verwijderen?")) {
-                window.location.href = `../backend/deleteTask.php?id=${taskId}`;
-            }
-        }
-    </script>
 </body>
 </html>
