@@ -6,8 +6,16 @@
     <title>Login - Taakbord</title>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="Home" href="index.php">
 </head>
 <body>
+
+    <div class="button">
+        <nav>
+            <a href="index.php">Home</a>
+        </nav>
+    </div>
+
     <div class="container-login">
         <h1>Login</h1>
         <form action="app/http/Controllers/LoginController.php" method="post">
