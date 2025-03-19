@@ -1,16 +1,20 @@
 <?php
 session_start();
-require_once '../../../backend/conn.php';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
-    $id = $_POST['id'];
-
-    $query = "DELETE FROM taken WHERE id = :id";
-    $stmt = $conn->prepare($query);
-    $stmt->execute([':id' => $id]);
-
-    echo json_encode(['success' => true]);
+if (!isset($_SESSION['user'])) {
+    header('Location: ../login.php');
     exit;
 }
 
-echo json_encode(['success' => false]);
+require_once 'conn.php';
+
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    $query = "DELETE FROM taken WHERE id = :id";
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':id', $id);
+    $stmt->execute();
+}
+
+header('Location: ../takenlijst.php');
+exit;
+?>

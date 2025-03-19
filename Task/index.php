@@ -7,6 +7,8 @@ if (!isset($_SESSION['user'])) {
     exit;
 }
 
+
+
 require_once '../backend/conn.php';
 
 
@@ -16,6 +18,7 @@ $stmt->execute();
 $taken = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
+
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -24,6 +27,7 @@ $taken = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Takenlijst</title>
     <link rel="stylesheet" href="../css/normalize.css">
     <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="taakbord.css">
 </head>
 <body>
     <header>
@@ -62,8 +66,6 @@ $taken = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php endif; ?>
     </main>
 
-    <footer>
-        &copy; 2025 Developer Land Takenbord.
-    </footer>
+
 </body>
 </html>

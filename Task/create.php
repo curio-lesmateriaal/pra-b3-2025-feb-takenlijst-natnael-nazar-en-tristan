@@ -10,6 +10,7 @@ require_once '../backend/conn.php';
     <title>Nieuwe Taak Toevoegen</title>
     <link rel="stylesheet" href="../css/normalize.css">
     <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="taakbord.css">
 </head>
 <body>
     <header>

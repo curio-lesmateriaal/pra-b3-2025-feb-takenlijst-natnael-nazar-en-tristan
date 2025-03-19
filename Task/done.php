@@ -22,6 +22,7 @@ $taken = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Voltooide Taken</title>
     <link rel="stylesheet" href="../css/normalize.css">
     <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="taakbord.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.js"></script>
 </head>
 <body>
