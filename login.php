@@ -10,11 +10,15 @@
 </head>
 <body>
 
-    <div class="button">
+    <header>
+
+    <div class="Button">
         <nav>
             <a href="index.php">Home</a>
         </nav>
     </div>
+
+    </header>
 
     <div class="container-login">
         <h1>Login</h1>
