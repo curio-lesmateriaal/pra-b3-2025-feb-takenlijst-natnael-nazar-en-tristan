@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
                                         <select name="status" onchange="this.form.submit()">
                                             <option value="todo" <?php echo $taak['status'] === 'todo' ? 'selected' : ''; ?>>To-do</option>
                                             <option value="in_progress" <?php echo $taak['status'] === 'in_progress' ? 'selected' : ''; ?>>In Progress</option>
-                                            <option value="done" <?php echo $taak['status'] === 'done' ? 'selected' : ''; ?>>Finished</option>
+                                            <option value="done" <?php echo $taak['status'] === 'done' ? 'selected' : ''; ?>>Done</option>
                                         </select>
                                         <input type="hidden" name="update_status" value="1">
                                     </form>
