@@ -49,6 +49,11 @@ foreach ($taken as $taak) {
         <div>
             <a href="create.php" class="button">Nieuwe taak</a>
             <a href="done.php" class="button">Voltooide taken</a>
+            <a href="afdeling.php?afdeling=horeca" class="button">Horeca</a>
+            <a href="afdeling.php?afdeling=techniek" class="button">Techniek</a>
+            <a href="afdeling.php?afdeling=personeel" class="button">Personeel</a>
+            <a href="afdeling.php?afdeling=inkoop" class="button">Inkoop</a>
+            <a href="afdeling.php?afdeling=groen" class="button">Groen</a>
             <a href="../app/http/Controllers/logoutController.php" class="button">Uitloggen</a>
         </div>
     </header>
