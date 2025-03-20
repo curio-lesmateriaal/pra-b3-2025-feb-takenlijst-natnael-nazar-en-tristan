@@ -44,8 +44,8 @@ foreach ($taken as $taak) {
     <link rel="stylesheet" href="taakbord.css">
 </head>
 <body>
-    <header>
-        <h1>Takenbord</h1>
+    <header>   
+        <h1 class="tekst-white">Takenbord</h1>
         <div>
             <a href="create.php" class="button">Nieuwe taak</a>
             <a href="done.php" class="button">Voltooide taken</a>

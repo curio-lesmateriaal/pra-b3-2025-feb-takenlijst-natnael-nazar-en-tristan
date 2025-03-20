@@ -39,7 +39,7 @@ if (!$taak) {
 </head>
 <body>
     <header>
-        <h1>Taak Bewerken</h1>
+        <h1 class="tekst-white">Taak Bewerken</h1>
         <a href="index.php" class="button">Terug</a>
     </header>
 

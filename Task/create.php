@@ -19,7 +19,7 @@ require_once __DIR__ . '/../backend/conn.php';
 </head>
 <body>
     <header>
-        <h1>Nieuwe Taak</h1>
+        <h1 class="tekst-white">Nieuwe Taken</h1>
         <a href="index.php" class="button">Terug</a>
     </header>
 
@@ -47,6 +47,7 @@ require_once __DIR__ . '/../backend/conn.php';
                 <option value="klantenservice">klantenservice</option>
             </select>
         </div>
+        <input type="hidden" name="status" value="todo">
 
         <div>
             <label for="deadline">Deadline:</label>
