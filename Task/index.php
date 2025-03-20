@@ -1,30 +1,35 @@
 <?php
 session_start();
 
+// Controleer gebruiker authenticatie
 if (!isset($_SESSION['user'])) {
     header('Location: ../login.php');
     exit;
 }
 
-require_once '../backend/conn.php';
+// Stap 1: Pak de databaseverbinding erbij
+require_once __DIR__ . '/../backend/conn.php';
 
-// Query om actieve taken op te halen
-$query = "SELECT id, titel, afdeling, status, created_at, deadline FROM taken WHERE status <> 'done'";
-$stmt = $conn->prepare($query);
-$stmt->execute();
-$taken = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Stap 2: Schrijf de query met placeholders
+$query = "SELECT id, titel, afdeling, status FROM taken WHERE status <> 'done' ORDER BY deadline ASC";
 
-// Status updaten als er een formulier is ingediend
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
-    $taakId = $_POST['taak_id'];
-    $nieuweStatus = $_POST['status'];
+// Stap 3: Zet om naar prepared statement
+$statement = $conn->prepare($query);
 
-    $updateQuery = "UPDATE taken SET status = :status WHERE id = :id";
-    $updateStmt = $conn->prepare($updateQuery);
-    $updateStmt->execute(['status' => $nieuweStatus, 'id' => $taakId]);
+// Stap 4: Voer het statement uit
+$statement->execute();
 
-    header('Location: index.php');
-    exit;
+// Stap 5: Haal het resultaat op
+$taken = $statement->fetchAll();
+
+// Organiseer taken per status
+$takenPerStatus = [
+    'todo' => [],
+    'in_progress' => []
+];
+
+foreach ($taken as $taak) {
+    $takenPerStatus[$taak['status']][] = $taak;
 }
 ?>
 
@@ -33,69 +38,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Takenlijst</title>
-    <link rel="stylesheet" href="../css/normalize.css">
+    <title>Takenbord</title>
     <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="taakbord.css">
 </head>
 <body>
     <header>
-        <h1>Takenlijst</h1>
-        <nav>
-            <a href="create.php">Nieuwe taak toevoegen</a>
-            <a href="done.php">Voltooide taken bekijken</a>
-            <a href="../app/http/Controllers/logoutController.php">Uitloggen</a>
-        </nav>
+        <h1>Takenbord</h1>
+        <div>
+            <a href="create.php" class="button">Nieuwe taak</a>
+            <a href="done.php" class="button">Voltooide taken</a>
+            <a href="../app/http/Controllers/logoutController.php" class="button">Uitloggen</a>
+        </div>
     </header>
 
-    <main>
-        <h2>Welkom, <?php echo htmlspecialchars($_SESSION['user']); ?>!</h2>
-        <h3>Actieve taken</h3>
-        <div class="task-box">
-            <?php if (count($taken) > 0): ?>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Titel</th>
-                            <th>Afdeling</th>
-                            <th>Aangemaakt op</th>
-                            <th>Deadline</th>
-                            <th>Status</th>
-                            <th>Actie</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($taken as $taak): ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($taak['titel']); ?></td>
-                                <td><?php echo htmlspecialchars($taak['afdeling']); ?></td>
-                                <td><?php echo htmlspecialchars($taak['created_at'] ?? 'Geen datum beschikbaar'); ?></td>
-                                <td><?php echo htmlspecialchars($taak['deadline'] ?? 'Geen deadline'); ?></td>
-                                <td>
-                                    <form class="status-form" method="POST" action="index.php">
-                                        <input type="hidden" name="taak_id" value="<?php echo $taak['id']; ?>">
-                                        <select name="status" onchange="this.form.submit()">
-                                            <option value="todo" <?php echo $taak['status'] === 'todo' ? 'selected' : ''; ?>>To-do</option>
-                                            <option value="in_progress" <?php echo $taak['status'] === 'in_progress' ? 'selected' : ''; ?>>In Progress</option>
-                                            <option value="done" <?php echo $taak['status'] === 'done' ? 'selected' : ''; ?>>Finished</option>
-                                        </select>
-                                        <input type="hidden" name="update_status" value="1">
-                                    </form>
-                                </td>
-                                <td>
-                                    <form method="POST" action="../../../app/http/Controllers/DeleteTaskController.php" style="display: inline;">
-                                        <input type="hidden" name="taak_id" value="<?php echo $taak['id']; ?>">
-                                        <button type="submit" name="delete_task" class="delete-btn">Verwijderen</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            <?php else: ?>
-                <p>Er zijn geen actieve taken.</p>
-            <?php endif; ?>
+    <div class="kanban-board">
+        <div class="kanban-column">
+            <h2>Te Doen</h2>
+            <?php foreach ($takenPerStatus['todo'] as $taak): ?>
+                <div class="task-card">
+                    <h3><?php echo $taak['titel']; ?></h3>
+                    <p>Afdeling: <?php echo $taak['afdeling']; ?></p>
+                    <a href="edit.php?id=<?php echo $taak['id']; ?>" class="button">Bewerk</a>
+                    <form method="POST" action="../app/http/Controllers/TaskController.php" style="display: inline;">
+                        <input type="hidden" name="taak_id" value="<?php echo $taak['id']; ?>">
+                        <input type="hidden" name="action" value="delete">
+                        <button type="submit" class="delete-button">Verwijder</button>
+                    </form>
+                </div>
+            <?php endforeach; ?>
         </div>
-    </main>
+
+        <div class="kanban-column">
+            <h2>In Uitvoering</h2>
+            <?php foreach ($takenPerStatus['in_progress'] as $taak): ?>
+                <div class="task-card">
+                    <h3><?php echo $taak['titel']; ?></h3>
+                    <p>Afdeling: <?php echo $taak['afdeling']; ?></p>
+                    <a href="edit.php?id=<?php echo $taak['id']; ?>" class="button">Bewerk</a>
+                    <form method="POST" action="../app/http/Controllers/TaskController.php" style="display: inline;">
+                        <input type="hidden" name="taak_id" value="<?php echo $taak['id']; ?>">
+                        <input type="hidden" name="action" value="delete">
+                        <button type="submit" class="delete-button">Verwijder</button>
+                    </form>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,17 +1,26 @@
 <?php
 session_start();
+
+// Controleer gebruiker authenticatie
 if (!isset($_SESSION['user'])) {
     header('Location: ../login.php');
     exit;
 }
 
-require_once '../backend/conn.php';
+// Stap 1: Pak de databaseverbinding erbij
+require_once __DIR__ . '/../backend/conn.php';
 
-// Voltooide taken ophalen
-$query = "SELECT id, titel, beschrijving, afdeling, status, created_at, deadline FROM taken WHERE status = 'done'";
-$stmt = $conn->prepare($query);
-$stmt->execute();
-$taken = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Stap 2: Schrijf de query met placeholders
+$query = "SELECT titel, afdeling FROM taken WHERE status = 'done'";
+
+// Stap 3: Zet om naar prepared statement
+$statement = $conn->prepare($query);
+
+// Stap 4: Voer het statement uit
+$statement->execute();
+
+// Stap 5: Haal het resultaat op
+$voltooide_taken = $statement->fetchAll();
 
 // Taak verwijderen als er een verwijderverzoek is
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_task'])) {
@@ -30,43 +39,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_task'])) {
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Voltooide Taken</title>
-    <link rel="stylesheet" href="../css/normalize.css">
     <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="taakbord.css">
 </head>
 <body>
     <header>
         <h1>Voltooide Taken</h1>
-        <nav>
-            <a href="index.php">Terug naar takenlijst</a>
-            <a href="../app/http/Controllers/logoutController.php">Uitloggen</a>
-        </nav>
+        <a href="index.php" class="button">Terug</a>
     </header>
 
-    <main>
-        <div class="task-box">
-            <h2>Voltooide Taken</h2>
-            <?php if (count($taken) > 0): ?>
-                <?php foreach ($taken as $taak): ?>
-                    <div class="taak">
-                        <h3><?= htmlspecialchars($taak['titel']) ?></h3>
-                        <p><strong>Afdeling:</strong> <?= htmlspecialchars($taak['afdeling']) ?></p>
-                        <p><strong>Status:</strong> <?= htmlspecialchars($taak['status']) ?></p>
-                        <p><strong>Aangemaakt op:</strong> <?= htmlspecialchars($taak['created_at'] ?? 'Geen datum beschikbaar') ?></p>
-                        <p><strong>Deadline:</strong> <?= htmlspecialchars($taak['deadline'] ?? 'Geen deadline') ?></p>
-                        <p><?= nl2br(htmlspecialchars($taak['beschrijving'])) ?></p>
-                        <form method="POST" action="../app/http/Controllers/DeleteTaskController.php" style="display: inline;">
-                            <input type="hidden" name="taak_id" value="<?= $taak['id'] ?>">
-                            <button type="submit" name="delete_task" class="delete-btn">Verwijderen</button>
-                        </form>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p>Er zijn geen voltooide taken.</p>
-            <?php endif; ?>
-        </div>
-    </main>
+    <div class="task-list">
+        <?php foreach ($voltooide_taken as $taak): ?>
+            <div class="task-card">
+                <h3><?php echo $taak['titel']; ?></h3>
+                <p>Afdeling: <?php echo $taak['afdeling']; ?></p>
+            </div>
+        <?php endforeach; ?>
+    </div>
 </body>
 </html>
