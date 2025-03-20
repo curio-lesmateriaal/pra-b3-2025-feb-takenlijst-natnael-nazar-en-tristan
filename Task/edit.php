@@ -6,20 +6,21 @@ if (!isset($_SESSION['user'])) {
     exit;
 }
 
+//1. Verbinding
 require_once __DIR__ . '/../backend/conn.php';
 
-// Stap 2: Schrijf de query met placeholders
+//2. Query
 $query = "SELECT * FROM taken WHERE id = :id";
 
-// Stap 3: Zet om naar prepared statement
+//3. Prepare
 $statement = $conn->prepare($query);
 
-// Stap 4: Voer het statement uit met de waarden
+//4. Execute
 $statement->execute([
     'id' => $_GET['id']
 ]);
 
-// Stap 5: Haal het resultaat op
+//5. Fetch
 $taak = $statement->fetch();
 
 if (!$taak) {

@@ -7,33 +7,31 @@ if (!isset($_SESSION['user'])) {
     exit;
 }
 
-// Stap 1: Pak de databaseverbinding erbij
+//1. Verbinding
 require_once __DIR__ . '/../backend/conn.php';
 
-// Stap 2: Schrijf de query met placeholders
-$query = "SELECT titel, afdeling FROM taken WHERE status = 'done'";
+//2. Query
+$query = "SELECT id, titel, beschrijving, afdeling, status, created_at, deadline FROM taken WHERE status = 'done'";
 
-// Stap 3: Zet om naar prepared statement
+//3. Prepare
 $statement = $conn->prepare($query);
 
-// Stap 4: Voer het statement uit
+//4. Execute
 $statement->execute();
 
-// Stap 5: Haal het resultaat op
+//5. Fetch
 $voltooide_taken = $statement->fetchAll();
-
-
-$query = "SELECT id, titel, beschrijving, afdeling, status, created_at, deadline FROM taken WHERE status = 'done'";
-$stmt = $conn->prepare($query);
-$stmt->execute();
-$taken = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_task'])) {
     $taakId = $_POST['taak_id'];
 
+    //2. Query
     $deleteQuery = "DELETE FROM taken WHERE id = :id";
+    
+    //3. Prepare
     $deleteStmt = $conn->prepare($deleteQuery);
+    
+    //4. Execute
     $deleteStmt->execute(['id' => $taakId]);
 
     header('Location: done.php');
@@ -59,6 +57,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_task'])) {
             <div class="task-card">
                 <h3><?php echo $taak['titel']; ?></h3>
                 <p>Afdeling: <?php echo $taak['afdeling']; ?></p>
+                <p>Beschrijving: <?php echo $taak['beschrijving']; ?></p>
+                <p>Aangemaakt op: <?php echo $taak['created_at']; ?></p>
+                <p>Deadline: <?php echo $taak['deadline']; ?></p>
             </div>
         <?php endforeach; ?>
     </div>

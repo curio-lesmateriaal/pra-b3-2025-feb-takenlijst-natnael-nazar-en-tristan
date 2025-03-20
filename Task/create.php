@@ -16,7 +16,6 @@ require_once __DIR__ . '/../backend/conn.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nieuwe Taak</title>
     <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="taakbord.css">
 </head>
 <body>
     <header>

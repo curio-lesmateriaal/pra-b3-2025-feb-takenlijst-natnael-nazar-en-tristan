@@ -1,23 +1,24 @@
 <?php
 session_start();
 
-// Stap 1: Pak de databaseverbinding erbij
+//1. Verbinding
 require_once __DIR__ . '/../../../backend/conn.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //Variabelen vullen
     $username = $_POST['user'];
     $password = $_POST['pass'];
 
-    // Stap 2: Schrijf de query met placeholders
+    //2. Query
     $query = "SELECT * FROM users WHERE username = :username";
 
-    // Stap 3: Zet om naar prepared statement
+    //3. Prepare
     $statement = $conn->prepare($query);
 
-    // Stap 4: Voer het statement uit
+    //4. Execute
     $statement->execute([':username' => $username]);
 
-    // Stap 5: Haal het resultaat op
+    //5. Fetch
     $user = $statement->fetch();
 
     if ($user && $password === $user['password']) {

@@ -7,25 +7,26 @@ if (!isset($_SESSION['user'])) {
     exit;
 }
 
-// Stap 1: Pak de databaseverbinding erbij
+//1. Verbinding
 require_once __DIR__ . '/../backend/conn.php';
 
-// Stap 2: Schrijf de query met placeholders
-$query = "SELECT id, titel, afdeling, status FROM taken WHERE status <> 'done' ORDER BY deadline ASC";
+//2. Query
+$query = "SELECT id, titel, afdeling, status FROM taken ORDER BY deadline ASC";
 
-// Stap 3: Zet om naar prepared statement
+//3. Prepare
 $statement = $conn->prepare($query);
 
-// Stap 4: Voer het statement uit
+//4. Execute
 $statement->execute();
 
-// Stap 5: Haal het resultaat op
+//5. Fetch
 $taken = $statement->fetchAll();
 
 // Organiseer taken per status
 $takenPerStatus = [
     'todo' => [],
-    'in_progress' => []
+    'in_progress' => [],
+    'done' => []
 ];
 
 foreach ($taken as $taak) {
@@ -47,7 +48,6 @@ foreach ($taken as $taak) {
         <h1>Takenbord</h1>
         <div>
             <a href="create.php" class="button">Nieuwe taak</a>
-            <a href="done.php" class="button">Voltooide taken</a>
             <a href="../app/http/Controllers/logoutController.php" class="button">Uitloggen</a>
         </div>
     </header>
@@ -71,6 +71,22 @@ foreach ($taken as $taak) {
         <div class="kanban-column">
             <h2>In Uitvoering</h2>
             <?php foreach ($takenPerStatus['in_progress'] as $taak): ?>
+                <div class="task-card">
+                    <h3><?php echo $taak['titel']; ?></h3>
+                    <p>Afdeling: <?php echo $taak['afdeling']; ?></p>
+                    <a href="edit.php?id=<?php echo $taak['id']; ?>" class="button">Bewerk</a>
+                    <form method="POST" action="../app/http/Controllers/TaskController.php" style="display: inline;">
+                        <input type="hidden" name="taak_id" value="<?php echo $taak['id']; ?>">
+                        <input type="hidden" name="action" value="delete">
+                        <button type="submit" class="delete-button">Verwijder</button>
+                    </form>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
+        <div class="kanban-column">
+            <h2>Voltooid</h2>
+            <?php foreach ($takenPerStatus['done'] as $taak): ?>
                 <div class="task-card">
                     <h3><?php echo $taak['titel']; ?></h3>
                     <p>Afdeling: <?php echo $taak['afdeling']; ?></p>

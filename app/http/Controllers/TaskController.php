@@ -6,22 +6,21 @@ if (!isset($_SESSION['user'])) {
     exit;
 }
 
-//  Pak de databaseverbinding erbij
+//1. Verbinding
 require_once __DIR__ . '/../../../backend/conn.php';
 
-// Haal de actie op
+//Variabelen vullen
 $action = $_POST['action'];
 
-
 if ($action == 'create') {
-    //  Schrijf de query met placeholders
+    //2. Query
     $query = "INSERT INTO taken (titel, beschrijving, afdeling, deadline, status) 
               VALUES (:titel, :beschrijving, :afdeling, :deadline, :status)";
 
-    //  Zet om naar prepared statement
+    //3. Prepare
     $statement = $conn->prepare($query);
 
-    //  Voer het statement uit met de waarden
+    //4. Execute
     $statement->execute([
         'titel' => $_POST['titel'],
         'beschrijving' => $_POST['beschrijving'],
@@ -33,9 +32,8 @@ if ($action == 'create') {
     header("Location: ../../../Task/index.php");
 }
 
-// EDIT
 if ($action == 'edit') {
-    // Stap 2: Schrijf de query met placeholders
+    //2. Query
     $query = "UPDATE taken 
               SET titel = :titel,
                   beschrijving = :beschrijving,
@@ -44,10 +42,10 @@ if ($action == 'edit') {
                   deadline = :deadline
               WHERE id = :id";
 
-    // Stap 3: Zet om naar prepared statement
+    //3. Prepare
     $statement = $conn->prepare($query);
 
-    // Stap 4: Voer het statement uit met de waarden
+    //4. Execute
     $statement->execute([
         'id' => $_POST['id'],
         'titel' => $_POST['titel'],
@@ -64,15 +62,14 @@ if ($action == 'edit') {
     }
 }
 
-// DELETE
 if ($action == 'delete') {
-    // Stap 2: Schrijf de query met placeholders
+    //2. Query
     $query = "DELETE FROM taken WHERE id = :id";
 
-    // Stap 3: Zet om naar prepared statement
+    //3. Prepare
     $statement = $conn->prepare($query);
 
-    // Stap 4: Voer het statement uit met de waarden
+    //4. Execute
     $statement->execute([
         'id' => $_POST['taak_id']
     ]);
