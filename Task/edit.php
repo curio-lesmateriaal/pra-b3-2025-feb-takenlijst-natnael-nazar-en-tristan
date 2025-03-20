@@ -65,6 +65,7 @@ if (!$taak) {
                 <option value="techniek" <?php echo $taak['afdeling'] == 'techniek' ? 'selected' : ''; ?>>Techniek</option>
                 <option value="inkoop" <?php echo $taak['afdeling'] == 'inkoop' ? 'selected' : ''; ?>>Inkoop</option>
                 <option value="groen" <?php echo $taak['afdeling'] == 'groen' ? 'selected' : ''; ?>>Groen</option>
+                <option value="klantenservice" <?php echo $taak['afdeling'] == 'klantenservice' ? 'selected' : ''; ?>>klantenservice</option>
             </select>
         </div>
 

@@ -11,7 +11,7 @@ if (!isset($_SESSION['user'])) {
 require_once __DIR__ . '/../backend/conn.php';
 
 //2. Query
-$query = "SELECT id, titel, afdeling, status FROM taken ORDER BY deadline ASC";
+$query = "SELECT id, titel, afdeling, status, deadline FROM taken ORDER BY deadline ASC";
 
 //3. Prepare
 $statement = $conn->prepare($query);
@@ -59,6 +59,7 @@ foreach ($taken as $taak) {
                 <div class="task-card">
                     <h3><?php echo $taak['titel']; ?></h3>
                     <p>Afdeling: <?php echo $taak['afdeling']; ?></p>
+                    <p>Deadline: <?php echo date('d-m-Y', strtotime($taak['deadline'])); ?></p>
                     <a href="edit.php?id=<?php echo $taak['id']; ?>" class="button">Bewerk</a>
                     <form method="POST" action="../app/http/Controllers/TaskController.php" style="display: inline;">
                         <input type="hidden" name="taak_id" value="<?php echo $taak['id']; ?>">
@@ -75,6 +76,7 @@ foreach ($taken as $taak) {
                 <div class="task-card">
                     <h3><?php echo $taak['titel']; ?></h3>
                     <p>Afdeling: <?php echo $taak['afdeling']; ?></p>
+                    <p>Deadline: <?php echo date('d-m-Y', strtotime($taak['deadline'])); ?></p>
                     <a href="edit.php?id=<?php echo $taak['id']; ?>" class="button">Bewerk</a>
                     <form method="POST" action="../app/http/Controllers/TaskController.php" style="display: inline;">
                         <input type="hidden" name="taak_id" value="<?php echo $taak['id']; ?>">
@@ -91,6 +93,7 @@ foreach ($taken as $taak) {
                 <div class="task-card">
                     <h3><?php echo $taak['titel']; ?></h3>
                     <p>Afdeling: <?php echo $taak['afdeling']; ?></p>
+                    <p>Deadline: <?php echo date('d-m-Y', strtotime($taak['deadline'])); ?></p>
                     <a href="edit.php?id=<?php echo $taak['id']; ?>" class="button">Bewerk</a>
                     <form method="POST" action="../app/http/Controllers/TaskController.php" style="display: inline;">
                         <input type="hidden" name="taak_id" value="<?php echo $taak['id']; ?>">

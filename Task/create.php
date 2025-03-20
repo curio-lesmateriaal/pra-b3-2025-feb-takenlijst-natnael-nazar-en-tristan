@@ -44,6 +44,7 @@ require_once __DIR__ . '/../backend/conn.php';
                 <option value="techniek">Techniek</option>
                 <option value="inkoop">Inkoop</option>
                 <option value="groen">Groen</option>
+                <option value="klantenservice">klantenservice</option>
             </select>
         </div>
 

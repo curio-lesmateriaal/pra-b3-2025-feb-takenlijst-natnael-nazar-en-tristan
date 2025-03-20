@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_task'])) {
 </head>
 <body>
     <header>
-        <h1>Voltooide Taken</h1>
+        <h1 class="tekst-white">Voltooide Taken</h1>
         <a href="index.php" class="button">Terug</a>
     </header>
 
