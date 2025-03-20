@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($user && $password === $user['password']) {
         // Inloggen succesvol
         $_SESSION['user'] = $username; 
-        header('Location: /task/index.php');
+        header('Location: ../../../task/index.php');
  // Doorsturen naar takenlijst
         exit;
     } else {
