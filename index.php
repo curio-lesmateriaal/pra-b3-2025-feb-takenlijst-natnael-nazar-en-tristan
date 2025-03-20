@@ -6,6 +6,7 @@
     <title>Taakbord</title>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="taakbord.css">
     
     
     <?php require_once 'head.php'; ?>
@@ -25,7 +26,7 @@
         </p>
         <ul>
             <li>Nieuwe taken aanmaken</li>
-            <li>De status van taken veranderen (bijvoorbeeld: "To Do", "In Progress", "Done")</li>
+            <li>De status van taken veranderen (bijvoorbeeld: "To Do", "In Progress", "Finished")</li>
             <li>Taken verwijderen</li>
             <li>Een deadline instellen voor wanneer de taak af moet zijn</li>
         </ul>
@@ -35,6 +36,6 @@
     </main>
 
     <div class="footer">
-        &copy; 2025 Developer Land Takenbord. 
+        &copy; Tristan, Natnael en Nazar. 
 </body>
 </html>

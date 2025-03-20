@@ -7,13 +7,13 @@ if (!isset($_SESSION['user'])) {
 
 require_once '../backend/conn.php';
 
-// Voltooide taken ophalen
+
 $query = "SELECT id, titel, beschrijving, afdeling, status, created_at, deadline FROM taken WHERE status = 'done'";
 $stmt = $conn->prepare($query);
 $stmt->execute();
 $taken = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Taak verwijderen als er een verwijderverzoek is
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_task'])) {
     $taakId = $_POST['taak_id'];
 

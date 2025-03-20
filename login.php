@@ -7,6 +7,7 @@
     <title>Login - Taakbord</title>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="taakbord.css">
     <link rel="Home" href="index.php">
 
 </head>
