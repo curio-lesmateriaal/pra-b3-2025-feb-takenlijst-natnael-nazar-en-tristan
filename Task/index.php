@@ -40,6 +40,7 @@ foreach ($taken as $taak) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Takenbord</title>
     <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="taakbord.css">
 </head>
 <body>
     <header>
@@ -50,7 +51,6 @@ foreach ($taken as $taak) {
             <a href="../app/http/Controllers/logoutController.php" class="button">Uitloggen</a>
         </div>
     </header>
-
     <div class="kanban-board">
         <div class="kanban-column">
             <h2>Te Doen</h2>

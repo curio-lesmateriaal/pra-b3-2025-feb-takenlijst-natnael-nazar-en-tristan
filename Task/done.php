@@ -22,7 +22,13 @@ $statement->execute();
 // Stap 5: Haal het resultaat op
 $voltooide_taken = $statement->fetchAll();
 
-// Taak verwijderen als er een verwijderverzoek is
+
+$query = "SELECT id, titel, beschrijving, afdeling, status, created_at, deadline FROM taken WHERE status = 'done'";
+$stmt = $conn->prepare($query);
+$stmt->execute();
+$taken = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_task'])) {
     $taakId = $_POST['taak_id'];
 

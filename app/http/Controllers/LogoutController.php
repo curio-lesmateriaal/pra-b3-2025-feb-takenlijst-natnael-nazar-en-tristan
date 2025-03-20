@@ -13,6 +13,10 @@ if (isset($_COOKIE[session_name()])) {
 session_destroy();
 
 // Redirect naar de login pagina
+
+session_start(); 
+session_destroy(); 
+
 header('Location: ../../../login.php');
 exit;
 ?>

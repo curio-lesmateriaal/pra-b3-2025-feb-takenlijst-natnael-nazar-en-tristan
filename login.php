@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <link rel="stylesheet" href="css/main.css">
+
+    <link rel="stylesheet" href="taakbord.css">
+    <link rel="Home" href="index.php">
 </head>
 <body>
     <header>
