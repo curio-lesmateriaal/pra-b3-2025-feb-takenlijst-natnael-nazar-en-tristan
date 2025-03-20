@@ -48,6 +48,7 @@ foreach ($taken as $taak) {
         <h1>Takenbord</h1>
         <div>
             <a href="create.php" class="button">Nieuwe taak</a>
+            <a href="done.php" class="button">Voltooide taken</a>
             <a href="../app/http/Controllers/logoutController.php" class="button">Uitloggen</a>
         </div>
     </header>
