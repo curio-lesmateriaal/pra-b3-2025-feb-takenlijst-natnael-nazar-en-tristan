@@ -288,15 +288,30 @@
       }
     }
 
-/* Basis stijlen */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 20px;
+    background-image: url('../img/pretpark.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     background-color: #f0f5f0;
+    position: relative;
 }
 
-/* Homepage */
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.75);  
+    z-index: -1;
+}
+
 .homepage {
     min-height: 100vh;
     display: flex;
@@ -307,7 +322,7 @@ body {
 .welcome-container {
     text-align: center;
     padding: 40px;
-    background: white;
+    background: white;  
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     max-width: 600px;
@@ -319,7 +334,13 @@ body {
     margin-bottom: 20px;
 }
 
-/* Koppen en tekst */
+.logo-inlog{
+  align-items: center;
+  max-width: 200px;
+
+}
+
+
 h1 {
     color: #28a745;
     margin-bottom: 10px;
@@ -330,9 +351,8 @@ p {
     margin-bottom: 20px;
 }
 
-/* Header */
 header {
-    background-color: #28a745;
+    background-color: #28a745;  /* Volledig groene header */
     color: white;
     padding: 15px;
     margin-bottom: 20px;
@@ -345,7 +365,7 @@ header a {
     margin-left: 10px;
 }
 
-/* Formulieren */
+
 form {
     background: white;
     padding: 20px;
@@ -367,7 +387,7 @@ input, select, textarea {
     border-radius: 4px;
 }
 
-/* Knoppen */
+
 .button, button {
     background-color: #28a745;
     color: white;
@@ -382,7 +402,7 @@ input, select, textarea {
     background-color: #dc3545;
 }
 
-/* Takenbord */
+
 .kanban-board {
     display: flex;
     gap: 20px;
@@ -390,12 +410,15 @@ input, select, textarea {
 }
 
 .kanban-column {
-    flex: 1;
-    background: white;
+    background: white;  
     padding: 15px;
     border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    flex: 1;
     min-width: 250px;
 }
+
+
 
 .kanban-column h2 {
     color: #28a745;
@@ -406,13 +429,13 @@ input, select, textarea {
 
 .task-card {
     background: white;
+    border: 1px solid #eee;  
     padding: 15px;
     margin-bottom: 10px;
-    border: 1px solid #ddd;
     border-radius: 4px;
 }
 
-/* Voltooide taken */
+
 .task-list {
     max-width: 800px;
     margin: 20px auto;

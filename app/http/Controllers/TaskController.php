@@ -12,10 +12,17 @@ require_once __DIR__ . '/../../../backend/conn.php';
 //Variabelen vullen
 $action = $_POST['action'];
 
+// Haal user ID op
+$userQuery = "SELECT id FROM users WHERE username = :username";
+$userStmt = $conn->prepare($userQuery);
+$userStmt->execute(['username' => $_SESSION['user']]);
+$user = $userStmt->fetch();
+$userId = $user['id'];
+
 if ($action == 'create') {
     //2. Query
-    $query = "INSERT INTO taken (titel, beschrijving, afdeling, deadline, status) 
-              VALUES (:titel, :beschrijving, :afdeling, :deadline, :status)";
+    $query = "INSERT INTO taken (titel, beschrijving, afdeling, deadline, status, user) 
+              VALUES (:titel, :beschrijving, :afdeling, :deadline, :status, :user)";
 
     //3. Prepare
     $statement = $conn->prepare($query);
@@ -26,7 +33,8 @@ if ($action == 'create') {
         'beschrijving' => $_POST['beschrijving'],
         'afdeling' => $_POST['afdeling'],
         'deadline' => $_POST['deadline'],
-        'status' => 'todo'
+        'status' => 'todo',
+        'user' => $userId
     ]);
 
     header("Location: ../../../Task/index.php");

@@ -58,7 +58,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_task'])) {
                 <h3><?php echo $taak['titel']; ?></h3>
                 <p>Afdeling: <?php echo $taak['afdeling']; ?></p>
                 <p>Beschrijving: <?php echo $taak['beschrijving']; ?></p>
-                <p>Aangemaakt op: <?php echo $taak['created_at']; ?></p>
                 <p>Deadline: <?php echo $taak['deadline']; ?></p>
             </div>
         <?php endforeach; ?>

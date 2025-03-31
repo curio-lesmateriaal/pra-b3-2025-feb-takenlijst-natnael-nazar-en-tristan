@@ -11,7 +11,7 @@ if (!isset($_SESSION['user'])) {
 require_once __DIR__ . '/../backend/conn.php';
 
 //2. Query
-$query = "SELECT id, titel, afdeling, status, deadline FROM taken ORDER BY deadline ASC";
+$query = "SELECT id, titel, beschrijving, afdeling, status, deadline FROM taken ORDER BY deadline ASC";
 
 //3. Prepare
 $statement = $conn->prepare($query);
@@ -22,7 +22,7 @@ $statement->execute();
 //5. Fetch
 $taken = $statement->fetchAll();
 
-// Organiseer taken per status
+
 $takenPerStatus = [
     'todo' => [],
     'in_progress' => [],
@@ -41,19 +41,20 @@ foreach ($taken as $taak) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Takenbord</title>
     <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="taakbord.css">
 </head>
 <body>
     <header>   
         <h1 class="tekst-white">Takenbord</h1>
         <div>
             <a href="create.php" class="button">Nieuwe taak</a>
+            <a href="my.php" class="button">Mijn taken</a>
             <a href="done.php" class="button">Voltooide taken</a>
             <a href="afdeling.php?afdeling=horeca" class="button">Horeca</a>
             <a href="afdeling.php?afdeling=techniek" class="button">Techniek</a>
             <a href="afdeling.php?afdeling=personeel" class="button">Personeel</a>
             <a href="afdeling.php?afdeling=inkoop" class="button">Inkoop</a>
             <a href="afdeling.php?afdeling=groen" class="button">Groen</a>
+            <a href="afdeling.php?afdeling=klantenservice" class="button">Klantenservice</a>
             <a href="../app/http/Controllers/logoutController.php" class="button">Uitloggen</a>
         </div>
     </header>
@@ -64,6 +65,7 @@ foreach ($taken as $taak) {
                 <div class="task-card">
                     <h3><?php echo $taak['titel']; ?></h3>
                     <p>Afdeling: <?php echo $taak['afdeling']; ?></p>
+                    <p>Beschrijving: <?php echo $taak['beschrijving']; ?></p>
                     <p>Deadline: <?php echo date('d-m-Y', strtotime($taak['deadline'])); ?></p>
                     <a href="edit.php?id=<?php echo $taak['id']; ?>" class="button">Bewerk</a>
                     <form method="POST" action="../app/http/Controllers/TaskController.php" style="display: inline;">
@@ -81,6 +83,7 @@ foreach ($taken as $taak) {
                 <div class="task-card">
                     <h3><?php echo $taak['titel']; ?></h3>
                     <p>Afdeling: <?php echo $taak['afdeling']; ?></p>
+                    <p>Beschrijving: <?php echo $taak['beschrijving']; ?></p>
                     <p>Deadline: <?php echo date('d-m-Y', strtotime($taak['deadline'])); ?></p>
                     <a href="edit.php?id=<?php echo $taak['id']; ?>" class="button">Bewerk</a>
                     <form method="POST" action="../app/http/Controllers/TaskController.php" style="display: inline;">
@@ -98,6 +101,7 @@ foreach ($taken as $taak) {
                 <div class="task-card">
                     <h3><?php echo $taak['titel']; ?></h3>
                     <p>Afdeling: <?php echo $taak['afdeling']; ?></p>
+                    <p>Beschrijving: <?php echo $taak['beschrijving']; ?></p>
                     <p>Deadline: <?php echo date('d-m-Y', strtotime($taak['deadline'])); ?></p>
                     <a href="edit.php?id=<?php echo $taak['id']; ?>" class="button">Bewerk</a>
                     <form method="POST" action="../app/http/Controllers/TaskController.php" style="display: inline;">
